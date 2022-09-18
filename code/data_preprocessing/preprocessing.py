@@ -9,7 +9,7 @@ import pickle
 logging_str = "[%(asctime)s: %(levelname)s: %(module)s] %(message)s"
 log_dir = "code\logs"
 os.makedirs(log_dir, exist_ok=True)
-logging.basicConfig(filename= os.path.join(log_dir,"preprocessing_logs.log"),level=logging.INFO, format=logging_str, filemode="a")
+logging.basicConfig(filename= os.path.join(log_dir,"running_logs.log"),level=logging.INFO, format=logging_str, filemode="a")
 
 class Preprocessing():
     def __init__(self,filename):
@@ -109,9 +109,13 @@ class Preprocessing():
 
     def preprocessing_flow(self):
         try:
-            logging.info(f"************ Starting the Preprocessing Pipeline!! ************")
+            logging.info(f"\n\n************ Starting the Preprocessing Pipeline!! ************")
             # 1. Getting The data
             df = self.get_data()
+
+            # Dropping the serial_no column as it provides no valuable information
+            logging.info("Dropping serial_no column from dataframe")
+            df.drop(columns=['sl_no'], axis=1, inplace=True)
             
             # 2. Filling the missing value
             self.fill_missing_values(df, column ='salary', imputation="mean")
