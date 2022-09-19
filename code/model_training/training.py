@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import ConfusionMatrixDisplay, precision_score, recall_score, f1_score, roc_auc_score, confusion_matrix, accuracy_score
 import pandas as pd
 from sklearn.model_selection import train_test_split
+from sklearn.model_selection import GridSearchCV
 
 logging_str = "[%(asctime)s: %(levelname)s: %(module)s] %(message)s"
 log_dir = "code\logs"
@@ -148,14 +149,102 @@ class ModelTraining:
         except Exception as e:
             logging.exception("Exception Occured in Performance Evaluation -->> {e}")
 
+    
+    def find_best_model(self, evaluation_file, scoring='Precision_Score'):
+        try:
+            evaluation_df = pd.read_csv(evaluation_file)
+            if scoring == 'Precision_Score':
+                evaluation_df = evaluation_df.sort_values(by='Precision_Score', ascending=False)
+                logging.info(f"Best Model name: {evaluation_df.iloc[0][0]}")
+                return evaluation_df.iloc[0][0]
+            elif scoring == 'Recall_Score':
+                evaluation_df = evaluation_df.sort_values(by='Recall_Score', ascending=False)
+                logging.info(f"Best Model name: {evaluation_df.iloc[0][0]}")
+                return evaluation_df.iloc[0][0]
+            elif scoring == 'accuracy_score':
+                evaluation_df = evaluation_df.sort_values(by='accuracy_score', ascending=False)
+                logging.info(f"Best Model name: {evaluation_df.iloc[0][0]}")
+                return evaluation_df.iloc[0][0]
+            elif scoring == 'F1_Score':
+                evaluation_df = evaluation_df.sort_values(by='F1_Score', ascending=False)
+                logging.info(f"Best Model name: {evaluation_df.iloc[0][0]}")
+                return evaluation_df.iloc[0][0]
+            else:
+                logging.info(f"Got Invalid Scoring Parameter: {scoring}")
+        except Exception as e:
+            logging.exception("Exception occured at finding best model: {e}")
+        
+
     # def determine_best_threshold():
     #     pass
 
     # def plot_roc_auc_curve():
     #     pass
 
-    def hyperparameter_tuning(self):
-        pass
+    def training_best_model(self, params_dict, model_name,X_train,y_train):
+        try:
+            logging.info(f"Training Best Model for : {model_name}")
+            if model_name == 'decision_tree':
+                try:
+                    model_dt = DecisionTreeClassifier()
+                    grid_search = GridSearchCV(estimator=model_dt, 
+                            param_grid=params_dict, 
+                            cv=4, n_jobs=-1, verbose=3, scoring = "precision")
+                    grid_search.fit(X_train, y_train)
+                    model = grid_search.best_estimator_
+                    return model
+                except Exception as e:
+                    logging.exception(f"Exception occurs in training Decision Tree: {e}")
+                
+            elif model_name == 'xgb':
+                try:
+                    model_xgb = XGBClassifier()
+                    grid_search = GridSearchCV(estimator=model_xgb, 
+                            param_grid=params_dict, 
+                            cv=4, n_jobs=-1, verbose=3, scoring = "precision")
+                    grid_search.fit(X_train, y_train)
+                    model = grid_search.best_estimator_
+                    return model
+                except Exception as e:
+                    logging.exception(f"Exception occurs in training XGBoost: {e}")
+
+            elif model_name == 'randomforest':
+                try:
+                    model_rf = RandomForestClassifier()
+                    grid_search = GridSearchCV(estimator=model_rf, 
+                            param_grid=params_dict, 
+                            cv=4, n_jobs=-1, verbose=3, scoring = "precision")
+                    grid_search.fit(X_train, y_train)
+                    model = grid_search.best_estimator_
+                    return model
+                except Exception as e:
+                    logging.exception(f"Exception occurs in training RandomForest: {e}")
+
+            elif model_name == 'logistic':
+                try:
+                    model_log = LogisticRegression()
+                    grid_search = GridSearchCV(estimator=model_log, 
+                            param_grid=params_dict, 
+                            cv=4, n_jobs=-1, verbose=3, scoring = "precision")
+                    grid_search.fit(X_train, y_train)
+                    model = grid_search.best_estimator_
+                    return model
+                except Exception as e:
+                    logging.exception(f"Exception occurs in training Logistic Regression: {e}")
+
+            else:
+                logging.error(f"No relevant model found..model is : {model_name}")
+        except Exception as e:
+            logging.exception(f"Exception occurs in model_training: {e}")
+
+    def model_saving(self, model, model_name, model_dir):
+        try:
+            logging.info(f"Saving the best model and best model is : {model_name}")
+            model_dir = os.path.join(model_dir, model_name)
+            pickle.dump(model, open(model_dir,'wb'))
+            logging.info(f"Model Saved Sucessfully at : {model_dir}")
+        except Exception as e:
+            logging.exception(f"Exception occured in saving the model: {e}")
     
     def training_flow(self):
         logging.info("\n\n********************************** Training Pipeline Begins ***************************************")
@@ -173,16 +262,16 @@ class ModelTraining:
         scaled_X_train, scaled_X_test = self.standardize_training_data(X_train, X_test, file_name)
 
         # 5. Applying Logistic Regression
-        model_log = self.model_LogisticRegression(X_train, y_train)
+        model_log = self.model_LogisticRegression(scaled_X_train, y_train)
 
         # 6. Applying Decision Tree
-        model_dt = self.model_DecisionTree(X_train, y_train)
+        model_dt = self.model_DecisionTree(scaled_X_train, y_train)
 
         # 7. Applying Random Forest
-        model_rf = self.model_RandomForest(X_train, y_train)
+        model_rf = self.model_RandomForest(scaled_X_train, y_train)
 
         # 8. Applying XGBoost
-        model_xgb = self.model_XGBoost(X_train, y_train)
+        model_xgb = self.model_XGBoost(scaled_X_train, y_train)
 
         # 9. Let's do the Performance Evaluation for all the models
         models = {'logistic':model_log,
@@ -191,3 +280,22 @@ class ModelTraining:
          'xgb': model_xgb
          }
         self.performance_evaluation(models ,scaled_X_train, scaled_X_test,y_train,y_test)
+
+        # 10. Finding the best model among the above ones
+        evaluation_file = "model_evaluation.csv"
+        logging.info(f"Evaluation File dir is: {evaluation_file}")
+        best_model_name = self.find_best_model(evaluation_file, scoring='Precision_Score')
+
+        # 11. Training the best model
+        params_dict = {
+                            'max_depth': [2, 3, 5, 10, 20],
+                            'min_samples_leaf': [5, 10, 20, 50, 100],
+                            'criterion': ["gini", "entropy"]
+                        }
+        best_model = self.training_best_model(params_dict, best_model_name, scaled_X_train,y_train)
+
+        # 12. Saving the best model
+        model_name = "best_model.pkl"
+        model_dir = os.path.join("code","model_file")
+        self.model_saving(best_model, model_name, model_dir)
+        logging.info("\n\n********************************** Training Pipeline Ends ***************************************")
