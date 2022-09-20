@@ -67,7 +67,7 @@ class ModelTraining:
             # scaled_X_train = self.scaler.fit_transform(X_train)
             # scaled_X_test = self.scaler.transform(X_test)
             self.scaled_X = self.scaler.fit_transform(self.X)
-            self.std_data = pd.DataFrame(self.scaled_X, columns=column_names)
+            self.std_data = pd.DataFrame(self.scaled_X)
             self.std_data['status'] = self.y
             logging.info("Training data Standardized Sucessfully!!")
             # logging.info(f"X_train -->> {scaled_X_train[:5]}")

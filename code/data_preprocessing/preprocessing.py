@@ -91,6 +91,7 @@ class Preprocessing():
             X_train = scaler.fit_transform(X_train)
             X_test = scaler.transform(X_test)
             logging.info(f"shape of X_train is: {X_train.shape}")
+            # logging.info(f"Column names of X_train:{X_train.columns}")
             os.makedirs("code\model_file", exist_ok=True)
             filepath = os.path.join("code","model_file",file_name)
             pickle.dump(scaler,open(filepath,'wb'))
@@ -143,6 +144,7 @@ class Preprocessing():
             X_train, X_test, y_train, y_test = self.split_train_test(X,y)
 
             # 7. Standardize the data
+            logging.info(f"X_train columns-->> {X_train.columns}")
             self.standardize_data(X_train, X_test, "scaling.pkl")
 
             # 8. Saving the csv file
