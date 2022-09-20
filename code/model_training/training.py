@@ -52,19 +52,29 @@ class ModelTraining:
         except Exception as e:
             logging.exception(f"Exception Occurs-->> {e}")
 
-    def standardize_training_data(self, X_train, X_test, filename):
+    def standardize_training_data(self, scale_file):
         try:
             logging.info("Standardizing Training Data")
-            # self.train_data = self.preprocess.get_data()
-            # self.X, self.y = self.preprocess.split_features_labels(df=self.train_data, target_col="status")
+            # df = pd.read_csv(data_file)
+            self.data = self.get_data()
+            column_names = self.data.columns
+            self.X, self.y = self.split_features_labels(df=self.data, target_col="status")
+            logging.info(f"Shape of X is {self.X.shape} and shape of y is {self.y.shape}")
+            logging.info(f"Columns in X are:{self.X.columns}")
             # self.X_train, self.X_test, self.y_train, self.y_test = self.preprocess.split_train_test(self.X, self.y)
-            self.scaler = pickle.load(open(filename,"rb"))
-            scaled_X_train = self.scaler.fit_transform(X_train)
-            scaled_X_test = self.scaler.transform(X_test)
+            self.scaler = pickle.load(open(scale_file,"rb"))
+            logging.info(f"Columns in Scaler model-->> {self.scaler.feature_names_in_}")
+            # scaled_X_train = self.scaler.fit_transform(X_train)
+            # scaled_X_test = self.scaler.transform(X_test)
+            self.scaled_X = self.scaler.fit_transform(self.X)
+            self.std_data = pd.DataFrame(self.scaled_X, columns=column_names)
+            self.std_data['status'] = self.y
             logging.info("Training data Standardized Sucessfully!!")
-            logging.info(f"X_train -->> {scaled_X_train[:5]}")
-            logging.info(f"X_test -->> {scaled_X_test[:5]}")
-            return scaled_X_train, scaled_X_test
+            # logging.info(f"X_train -->> {scaled_X_train[:5]}")
+            # logging.info(f"X_test -->> {scaled_X_test[:5]}")
+            logging.info(f"Standardized Data-->>\n{self.std_data}")
+            # return scaled_X_train, scaled_X_test
+            return self.std_data
 
         except Exception as e:
             logging.exception(f"Exception occured in standarizing training data-->> {e}")
@@ -254,24 +264,26 @@ class ModelTraining:
         # 2. Splitting features and Labels
         X, y = self.split_features_labels(df=train_data, target_col="status")
 
+        # 3. Standardizing the data
+        file_name = os.path.join("code","model_file","scaling.pkl")
+        scaled_data = self.standardize_training_data(file_name)
+
         # 3. Splitting data into training and testing
+        X = scaled_data.drop(columns=['status'], axis=1)
+        y = scaled_data['status']
         X_train, X_test, y_train, y_test = self.split_train_test(X, y)
 
-        # 4. Standardizing the data
-        file_name = os.path.join("code","model_file","scaling.pkl")
-        scaled_X_train, scaled_X_test = self.standardize_training_data(X_train, X_test, file_name)
-
         # 5. Applying Logistic Regression
-        model_log = self.model_LogisticRegression(scaled_X_train, y_train)
+        model_log = self.model_LogisticRegression(X_train, y_train)
 
         # 6. Applying Decision Tree
-        model_dt = self.model_DecisionTree(scaled_X_train, y_train)
+        model_dt = self.model_DecisionTree(X_train, y_train)
 
         # 7. Applying Random Forest
-        model_rf = self.model_RandomForest(scaled_X_train, y_train)
+        model_rf = self.model_RandomForest(X_train, y_train)
 
         # 8. Applying XGBoost
-        model_xgb = self.model_XGBoost(scaled_X_train, y_train)
+        model_xgb = self.model_XGBoost(X_train, y_train)
 
         # 9. Let's do the Performance Evaluation for all the models
         models = {'logistic':model_log,
@@ -279,7 +291,7 @@ class ModelTraining:
          'randomforest':model_rf,
          'xgb': model_xgb
          }
-        self.performance_evaluation(models ,scaled_X_train, scaled_X_test,y_train,y_test)
+        self.performance_evaluation(models ,X_train, X_test, y_train,y_test)
 
         # 10. Finding the best model among the above ones
         evaluation_file = "model_evaluation.csv"
@@ -292,7 +304,7 @@ class ModelTraining:
                             'min_samples_leaf': [5, 10, 20, 50, 100],
                             'criterion': ["gini", "entropy"]
                         }
-        best_model = self.training_best_model(params_dict, best_model_name, scaled_X_train,y_train)
+        best_model = self.training_best_model(params_dict, best_model_name, X_train,y_train)
 
         # 12. Saving the best model
         model_name = "best_model.pkl"

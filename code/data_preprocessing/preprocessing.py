@@ -90,6 +90,7 @@ class Preprocessing():
             scaler = StandardScaler()
             X_train = scaler.fit_transform(X_train)
             X_test = scaler.transform(X_test)
+            logging.info(f"shape of X_train is: {X_train.shape}")
             os.makedirs("code\model_file", exist_ok=True)
             filepath = os.path.join("code","model_file",file_name)
             pickle.dump(scaler,open(filepath,'wb'))
@@ -102,7 +103,7 @@ class Preprocessing():
             logging.info("Saving the Clean csv.")
             os.makedirs(dir_name, exist_ok=True)
             filepath = os.path.join(dir_name,file_name)
-            df.to_csv(filepath)
+            df.to_csv(filepath,index=False)
             logging.info(f"Saving the clean csv to {filepath}")
         except Exception as e:
             logging.exception(f"Exception in saving csv -->> {e}")
