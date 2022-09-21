@@ -38,6 +38,7 @@ class ModelTraining:
             logging.info(f"Splitting the Dataframe into features and labels where Target column is {target_col}")
             X = df.drop(columns=[target_col], axis=1)
             y = df[target_col]
+            logging.info(f"X :\n{X.head()}\n y: {y.head()}")
             logging.info(f"Splitted Features and Target column successfully!!")
             return X, y
         except Exception as e:
@@ -265,12 +266,15 @@ class ModelTraining:
         X, y = self.split_features_labels(df=train_data, target_col="status")
 
         # 3. Standardizing the data
-        file_name = os.path.join("code","model_file","scaling.pkl")
-        scaled_data = self.standardize_training_data(file_name)
+        """Since Bagging and Boosting algorithms do not require Scaling
+           so we are commenting the following section of code
+        """
+        # file_name = os.path.join("code","model_file","scaling.pkl")
+        # scaled_data = self.standardize_training_data(file_name)
 
         # 3. Splitting data into training and testing
-        X = scaled_data.drop(columns=['status'], axis=1)
-        y = scaled_data['status']
+        # X = scaled_data.drop(columns=['status'], axis=1)
+        # y = scaled_data['status']
         X_train, X_test, y_train, y_test = self.split_train_test(X, y)
 
         # 5. Applying Logistic Regression
