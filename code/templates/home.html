@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Placement Prediction</title>
+    <style>
+
+        body  {
+          background-image: url("campus.jpg");
+
+          background-color: #cccccc;
+          height: 500px;
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+          position: relative;
+        }
+    </style>
+    <!-- BootStrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+
+    <!-- css -->
+    <link rel="stylesheet" href="static/css/styles.css">
+
+
+</head>
+
+<body>
+
+    <!-- As a heading -->
+    <h1 style="text-align: center;"><strong>CAMPUS PLACEMENT PREDICTION</strong></h1>
+
+    <br><br><br>
+
+
+    <div class="container">
+
+
+
+        <form action="\predict" method="post">
+
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                          <h5 class="card-title">Gender</h5>
+                            <select name="gender" id="gender" required="required">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                            
+
+            <br>
+            <br>
+            <br>
+
+            <div class="row">
+              <div class="col-sm-6">
+                  <div class="card">
+                      <div class="card-body">
+                        <h5 class="card-title">Secondary Education Percentage</h5>
+                        <input type="text" name="CRIM" placeholder="CRIM" required="required" /><br>
+
+
+
+            <br>
+            <br>
+            <br>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Stoppage(s)</h5>
+                            <!-- Total Stops -->
+                            <select name="Total_stops" id="Total_stops" required="required">
+                                <option value="3">Non-Stop</option>
+                                <option value="5">1</option>
+                                <option value="4">2</option>
+                                <option value="2">3</option>
+                                <option value="1">4</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Airline</h5>
+                            <!-- Airline -->
+                            <select name="Airline" id="Airline" required="required">
+                                <option value="Jet Airways">Jet Airways</option>
+                                <option value="Jet Airways Business">Jet Airways Business</option>
+                                <option value="Trujet">Trujet</option>
+                                <option value="IndiGo">IndiGo</option>
+                                <option value="Air India">Air India</option>
+                                <option value="Multiple carriers">Multiple carriers</option>
+                                <option value="Multiple carriers">Multiple carriers Premium economy</option>
+                                <option value="SpiceJet">SpiceJet</option>
+                                <option value="Vistara">Vistara</option>
+                                <option value="Air Asia">Air Asia</option>
+                                <option value="GoAir">GoAir</option>
+                                <option value="Vistara Premium economy">Vistara Premium economy</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <br>
+            <br>
+            <br>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Additional Info</h5>
+                            <!-- Total Stops -->
+                            <select name="Additional_Info" id="Additional_Info" required="required">
+                                <option value="1">No check-in baggage included</option>
+                                <option value="2">Red-eye flight</option>
+                                <option value="3">In-flight meal not included</option>
+                                <option value="4">Change airports</option>
+                                <option value="5">2 Long layover</option>
+                                <option value="6">1 Short layover</option>
+                                <option value="7">1 Long layover</option>
+                                <option value="8">No Info</option>
+                                <option value="9">Business class</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <br>
+            <br>
+            <br>
+            <!-- Submit -->
+            <input type="submit" value="Submit" class="btn btn-secondary">
+        </form>
+
+        <br>
+        <br>
+        <h3>{{ prediction_text }}</h3>
+
+        <br>
+        <br>
+        
+
+
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/5f3f547070.js" crossorigin="anonymous"></script>
+
+   <!-- Footer -->
+       <div class='footer'>
+           <div class="contact">
+               <a target="_blank" href="https://github.com/akshat06/flight_fare_prediction"><i class="fab fa-github fa-lg contact-icon"></i></a>
+               <a target="_blank" href="https://www.linkedin.com/in/akshat-pant06"><i class="fab fa-linkedin fa-lg contact-icon"></i></a>
+               <p class='footer-description'>© AKSHAT PANT 2022</p>
+           </div>
+
+           <div class="contact">
+               <a target="_blank" href="https://github.com/dipdregan/flight_fare_prediction_using_docker"><i class="fab fa-github fa-lg contact-icon"></i></a>
+               <a target="_blank" href="https://www.linkedin.com/in/dipendra-pratap-266135171/"><i class="fab fa-linkedin fa-lg contact-icon"></i></a>
+               <p class='footer-description'>© DIPENDRA PRATAP 2022</p>
+           </div>
+
+
+       </div>
+</body>
+
+</html>
