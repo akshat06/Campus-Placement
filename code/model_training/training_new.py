@@ -325,4 +325,5 @@ class ModelTraining:
         model_name = "best_model.pkl"
         model_dir = os.path.join("code","model_file")
         self.model_saving(best_model, model_name, model_dir)
+        return best_model_name
         logging.info("\n\n********************************** Training Pipeline Ends ***************************************")
