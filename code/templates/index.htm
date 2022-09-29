@@ -1,0 +1,234 @@
+<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <title>Chances of getting Campus Placement</title>
+    <style>
+
+        .bd {
+            background-image: url("campus1.jpg");
+            background-color: #cccccc;
+            height: 720px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body class="bd">
+
+    <h1><div class="p-0 m-0" style="text-align: center"><font color="red">Campus Placement Prediction</font></div></h1>
+    <hr>
+    </br>
+    <h2><div class="p-0 m-0" style="text-align: center"><font color="black">Fill the Following Form to predict the chances of getting Placed</font></div></h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-8">
+                <hr>
+
+                <form method="post" action="/predict">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="gender"><p class="font-weight-bold bg-light">SEX:</p></label>
+                        </div>
+                        <div class="col-md-4">
+                            <select name="gender" style="width:200px" id="gender">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="ssc_p"><p class="font-weight-bold bg-light">Class 10th Percentage:</p></label>
+
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" style="width:200px" name="ssc_p" min="1" max="100" required>
+
+                        </div>
+                    </div>
+
+
+
+
+
+
+                    <!-- <div class="form-group">
+                    <label for="ssc_b"><p class="font-weight-bold">10th Board:</p></label>
+                    <select name="ssc_b" id="ssc_b">
+                      <option value="Central">Central Board</option>
+                      <option value="Others">Other Board</option>
+                    </select>
+                    </div> -->
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="hsc_p"><p class="font-weight-bold bg-light">Class 12th Percentage:</p></label>
+
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" style="width:200px" name="hsc_p" min="1" max="100" required>
+
+                        </div>
+                    </div>
+
+
+
+                    <!-- <div class="form-group">
+                    <label for="hsc_b"><p class="font-weight-bold">12th Board:</p></label>
+                    <select name="hsc_b" id="hsc_b">
+                      <option value="Central">Central Board</option>
+                      <option value="Others">Other Board</option>
+                    </select>
+                    </div> -->
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="hsc_s"><p class="font-weight-bold bg-light">Specialization in Higher Education:</p></label>
+
+                        </div>
+                        <div class="col-md-4">
+                            <select name="hsc_s" style="width:200px" id="hsc_s">
+                                <option value="Commerce">Commerce</option>
+                                <option value="Science">Science</option>
+                                <option value="Arts">Arts</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <label for="degree_p"><p class="font-weight-bold bg-light">Graduation Percentage:</p></label>
+                        </div>
+                        <div class="col-md-4">
+
+                            <input type="number" style="width:200px" name="degree_p" min="1" max="100" required>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <label for="degree_t"><p class="font-weight-bold bg-light">Graduation Specialization:</p></label>
+                        </div>
+                        <div class="col-md-4">
+                            <select name="degree_t" style="width:200px" id="degree_t">
+                                <option value="Comm&Mgmt">Commerce and Management</option>
+                                <option value="Sci&Tech">Science and Technology</option>
+                                <option value="Others">Others</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <label for="workex"><p class="font-weight-bold bg-light">Work Experience:</p></label>
+                        </div>
+                        <div class="col-md-4">
+                            <select name="workex" style="width:200px" id="workex">
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="etest_p"><p class="font-weight-bold bg-light">Employability Test Percentage:</p></label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" style="width:200px" name="etest_p" min="1" max="100" required>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="specialization"><p class="font-weight-bold bg-light">Specialization:</p></label>
+
+                        </div>
+                        <div class="col-md-4">
+                            <select name="specialization" style="width:200px" id="specialization">
+                                <option value="Mkt&Fin">Mkt&Fin</option>
+                                <option value="Mkt&HR">Mkt&HR</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="mba_p"><p class="font-weight-bold bg-light">MBA Percentage:</p></label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" style="width:200px" name="mba_p" min="1" max="100" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+					     <!-- <div class="col-md-4">
+						 <a target="_blank" href="train.html" class="btn btn-warning">Train</a>
+                        </div> -->
+                        <div class="col-md-4">
+                        </div>
+                        <div class="col-md-4">
+                            <input class="btn btn-danger" type="submit" value="submit">
+                        </div>
+                    </div>
+
+                    <hr>
+                    </br>
+                </form>
+
+                <!-- <form method="post" action="/train"></form>
+                   <h1><div style = "text-align: center"><font color="red"> <input class="btn btn-primary" type="submit" value="Train"></font></div></h1>
+                   </div>
+                </form> -->
+
+
+            </div>
+        </div>
+    </div>
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+            crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/5f3f547070.js" crossorigin="anonymous"></script>
+
+    <!-- Footer -->
+    <div class='footer'>
+        <div class="contact">
+            <a target="_blank" href="https://github.com/akshat06/Campus-Placement"><i class="fab fa-github fa-lg contact-icon"></i></a>
+            <a target="_blank" href="https://www.linkedin.com/in/akshat-pant06"><i class="fab fa-linkedin fa-lg contact-icon"></i></a>
+            <p class='footer-description'>© AKSHAT PANT 2022</p>
+        </div>
+    </div>
+</body>
+</html>
