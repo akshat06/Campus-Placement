@@ -152,7 +152,7 @@ class Preprocessing():
         # 4. remove ssc_b, hsc_b
         df = self.drop_column(df, ["ssc_b","hsc_b"])
         # 5. outlier detection
-        plt_dir = os.path.join("code","plots")
+        plt_dir = os.path.join("plots")
         self.outlier_detection(df, plt_dir)
         # 6. outlier handling
         df = self.outlier_handling(df, 'hsc_p')
@@ -165,7 +165,7 @@ class Preprocessing():
         # 9. drop columns ['workex', 'specialisation', 'status','hsc_s','degree_t','salary]
         df = self.drop_column(df, column_list=['hsc_s','degree_t','salary'])
         # 10. save the csv file
-        dir_name = os.path.join("code","clean_data")
+        dir_name = os.path.join("clean_data")
         file_name = "preprocessed_data.csv"
         self.save_csv(df, dir_name, file_name)
         logging.info("************************** Preprocessing Pipeline Ended *****************************")

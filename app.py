@@ -1,6 +1,6 @@
 # from data_preprocessing.preprocessing import Preprocessing
 from data_preprocessing.preprocessing_new import Preprocessing
-from model_training.training import ModelTraining
+# from model_training.training import ModelTraining
 from model_training.training_new import ModelTraining
 from model_prediction.prediction import Predicition
 import os

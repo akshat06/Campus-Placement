@@ -92,7 +92,7 @@ class ModelTraining:
 
     def performance_evaluation(self, model_dict,X_train,X_test,y_train,y_test):
         try:
-            plot_dir = "code\plots"
+            plot_dir = "plots"
             os.makedirs(plot_dir, exist_ok=True)
             performance_df = pd.DataFrame()
             performance_dict = dict()
